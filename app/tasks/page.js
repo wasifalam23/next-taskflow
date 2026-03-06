@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TaskCard from "../../components/TaskCard";
 
 async function getTasks() {
 	const res = await fetch("http://localhost:3000/api/tasks", {
@@ -23,16 +24,11 @@ export default async function TasksPage() {
 				</Link>
 			</div>
 
-			{tasks.map((task) => (
-				<div key={task._id} className="border p-4 rounded mb-3 ">
-					<h2>{task.title}</h2>
-					<p>{task.description}</p>
-
-					<div>
-						<span>{task.status}</span> | <span>{task.priority}</span>
-					</div>
-				</div>
-			))}
+			<ul className="flex flex-col gap-4">
+				{tasks.map((task) => (
+					<TaskCard key={task._id} task={task} />
+				))}
+			</ul>
 		</div>
 	);
 }
