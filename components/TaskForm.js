@@ -1,13 +1,39 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function TaskForm() {
+export default function TaskForm({ task }) {
+	console.log("TASKS", task);
 	const router = useRouter();
 
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
+
+	useEffect(() => {
+		if (task) {
+			setTitle(task.title);
+			setDescription(task.description);
+		}
+	}, [task]);
+
+	const editHandler = async () => {
+		const res = await fetch(`/api/tasks/${task._id}`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ title, description }),
+		});
+
+		if (!res.ok) {
+			throw new Error("Failed to update task");
+		}
+
+		const data = await res.json();
+		console.log("Data", data);
+		router.push("/tasks");
+	};
 
 	const formSubmitHandler = async (e) => {
 		e.preventDefault();
@@ -18,6 +44,11 @@ export default function TaskForm() {
 		}
 
 		try {
+			if (task) {
+				await editHandler(task);
+				return;
+			}
+
 			const res = await fetch("/api/tasks", {
 				method: "POST",
 				headers: {
