@@ -1,14 +1,6 @@
 import Link from "next/link";
-import TaskCard from "../../components/TaskCard";
-
-async function getTasks() {
-	const res = await fetch("http://localhost:3000/api/tasks", {
-		cache: "no-store",
-	});
-
-	const data = await res.json();
-	return data.data;
-}
+import TaskCard from "@/components/TaskCard";
+import { getTasks } from "@/lib/tasks";
 
 export default async function TasksPage() {
 	const tasks = await getTasks();
@@ -24,7 +16,7 @@ export default async function TasksPage() {
 				</Link>
 			</div>
 
-			<ul className="flex flex-col gap-4">
+			<ul className="flex flex-col-reverse gap-4">
 				{tasks.map((task) => (
 					<TaskCard key={task._id} task={task} />
 				))}
