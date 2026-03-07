@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DeleteTaskButton from "./DeleteTaskButton";
+import StatusSelect from "./StatusSelect";
 
 export default function TaskCard({ task }) {
 	return (
@@ -9,7 +10,8 @@ export default function TaskCard({ task }) {
 				<p className="text-sm text-gray-600">{task.description}</p>
 
 				<div className="flex gap-3 mt-2 text-sm">
-					<span>Status: {task.status}</span>
+					<StatusSelect task={task} />
+					{/* <span>Status: {task.status}</span> */}
 					<span>Priority: {task.priority}</span>
 				</div>
 			</div>
