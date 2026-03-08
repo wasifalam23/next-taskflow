@@ -1,5 +1,5 @@
 import { getTaskById } from "@/lib/tasks";
-import TaskForm from "@/components/TaskForm";
+import TaskForm from "@/components/tasks/TaskForm";
 
 export default async function EditTaskPage({ params }) {
 	const { id } = await params;

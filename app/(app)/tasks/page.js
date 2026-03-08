@@ -1,5 +1,5 @@
 import Link from "next/link";
-import TaskCard from "@/components/TaskCard";
+import TaskCard from "@/components/tasks/TaskCard";
 import { getTasks } from "@/lib/tasks";
 
 export default async function TasksPage() {
