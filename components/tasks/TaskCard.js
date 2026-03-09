@@ -3,6 +3,7 @@ import DeleteTaskButton from "./DeleteTaskButton";
 import StatusSelect from "./StatusSelect";
 
 export default function TaskCard({ task }) {
+	console.log("TTTT", task);
 	return (
 		<li className="border rounded-lg p-4 flex justify-between items-start">
 			<div>

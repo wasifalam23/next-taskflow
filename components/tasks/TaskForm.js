@@ -86,7 +86,7 @@ export default function TaskForm({ task }) {
 			<button
 				className="bg-blue-600 hover:bg-blue-500 rounded-md py-2 text-gray-50 cursor-pointer"
 				type="submit">
-				Create Task
+				{task ? "Update Task" : "Create Task"}
 			</button>
 		</form>
 	);

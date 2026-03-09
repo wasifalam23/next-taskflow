@@ -16,7 +16,7 @@ export default async function TasksPage() {
 				</Link>
 			</div>
 
-			<ul className="flex flex-col-reverse gap-4">
+			<ul className="flex flex-col gap-4">
 				{tasks.map((task) => (
 					<TaskCard key={task._id} task={task} />
 				))}
