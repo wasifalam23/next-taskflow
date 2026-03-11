@@ -9,7 +9,7 @@ export default function KanbanColumn({ title, tasks, status }) {
 	});
 
 	return (
-		<div ref={setNodeRef} className="bg-muted/40 rounded-lg p-4">
+		<div ref={setNodeRef} className="bg-muted/40 rounded-lg p-4 ">
 			<h2 className="font-semibold mb-4">{title}</h2>
 
 			<div className="space-y-3">
