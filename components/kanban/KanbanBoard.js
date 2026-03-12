@@ -2,10 +2,14 @@
 
 import { DndContext } from "@dnd-kit/core";
 import KanbanColumn from "./KanbanColumn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function KanbanBoard({ tasks }) {
 	const [items, setItems] = useState(tasks);
+
+	useEffect(() => {
+		setItems(tasks);
+	}, [tasks]);
 
 	const columns = {
 		todo: items.filter((t) => t.status === "todo"),

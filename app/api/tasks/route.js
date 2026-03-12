@@ -42,11 +42,16 @@ export async function GET(req) {
 
 		const status = searchParams.get("status");
 		const sort = searchParams.get("sort");
+		const search = searchParams.get("search");
 
 		const filter = {};
 
-		if (status) {
+		if (status && status !== "all") {
 			filter.status = status;
+		}
+
+		if (search) {
+			filter.title = { $regex: search, $options: "i" };
 		}
 
 		let sortOption = { createdAt: -1 };
