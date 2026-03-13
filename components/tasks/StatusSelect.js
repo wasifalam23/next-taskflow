@@ -2,14 +2,22 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { statusStyles } from "@/lib/taskStyles";
+import {
+	Select,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectItem,
+} from "@/components/ui/select";
 
 export default function StatusSelect({ task }) {
 	const router = useRouter();
-	const [editMode, setEditMode] = useState(false);
 	const [status, setStatus] = useState(task.status);
 
-	const handleStatusChange = async (e) => {
-		const newStatus = e.target.value;
+	const handleStatusChange = async (newStatus) => {
+		const previousStatus = status;
+
 		setStatus(newStatus);
 
 		try {
@@ -25,35 +33,25 @@ export default function StatusSelect({ task }) {
 				throw new Error("Failed to update status");
 			}
 
-			setEditMode(false);
 			router.refresh();
 		} catch (err) {
 			console.error(err);
+			setStatus(previousStatus);
 		}
 	};
 
 	return (
-		<>
-			{!editMode && (
-				<button
-					className="cursor-pointer"
-					onDoubleClick={() => setEditMode(true)}>
-					Status: {status}
-				</button>
-			)}
+		<Select value={status} onValueChange={handleStatusChange}>
+			<SelectTrigger
+				className={`h-7 w-32.5 text-xs cursor-pointer ${statusStyles[status]}`}>
+				<SelectValue />
+			</SelectTrigger>
 
-			{editMode && (
-				<select
-					autoFocus
-					value={status}
-					onChange={handleStatusChange}
-					onBlur={() => setEditMode(false)}
-					className="border rounded-md p-2">
-					<option value="todo">Todo</option>
-					<option value="in-progress">In Progress</option>
-					<option value="done">Done</option>
-				</select>
-			)}
-		</>
+			<SelectContent>
+				<SelectItem value="todo">Todo</SelectItem>
+				<SelectItem value="in-progress">In Progress</SelectItem>
+				<SelectItem value="done">Done</SelectItem>
+			</SelectContent>
+		</Select>
 	);
 }

@@ -1,14 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { statusStyles } from "@/lib/taskStyles";
 
 export default function RecentTasks({ tasks }) {
-	const statusStyles = {
-		todo: "bg-gray-100 text-gray-700 border-gray-200",
-		"in-progress": "bg-blue-100 text-blue-700 border-blue-200",
-		done: "bg-green-100 text-green-700 boder-blue-200",
-	};
-
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">

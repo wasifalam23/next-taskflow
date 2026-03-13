@@ -1,6 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 
 export default function DeleteTaskButton({ id }) {
 	const router = useRouter();
@@ -20,10 +22,12 @@ export default function DeleteTaskButton({ id }) {
 	};
 
 	return (
-		<button
+		<Button
+			className="cursor-pointer"
 			onClick={deleteTaskHandler}
-			className="px-3 py-1.5 rounded-md cursor-pointer bg-red-600 hover:bg-red-500 text-gray-50">
-			Delete
-		</button>
+			size="icon"
+			variant="ghost">
+			<Trash className="w-4 h-4 text-red-500" />
+		</Button>
 	);
 }

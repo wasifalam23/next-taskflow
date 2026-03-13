@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Plus } from "lucide-react";
+import { Plus, SearchX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 import {
@@ -27,6 +27,8 @@ export default function TasksView({ tasks }) {
 	const searchParams = useSearchParams();
 
 	const currentSearch = searchParams.get("search") || "";
+	const hasSearch = searchParams.get("search");
+
 	const [search, setSearch] = useState(currentSearch);
 
 	useEffect(() => {
@@ -47,13 +49,27 @@ export default function TasksView({ tasks }) {
 		return () => clearTimeout(timer);
 	}, [search, currentSearch, searchParams, router]);
 
+	const updateParam = (key, value) => {
+		const params = new URLSearchParams(searchParams.toString());
+
+		if (value && value !== "all") {
+			params.set(key, value);
+		} else {
+			params.delete(key);
+		}
+
+		router.push(`/tasks?${params.toString()}`);
+	};
+
+	const isEmpty = tasks.length === 0;
+
 	return (
 		<>
 			<div className="flex items-center justify-between py-8">
 				<h1 className="text-3xl font-medium">Tasks</h1>
 				<Button size="lg" asChild>
 					<Link href="/tasks/new">
-						<Plus className="w-4 h-4 mr-2" />
+						<Plus className="w-4 h-4" />
 						Create new task
 					</Link>
 				</Button>
@@ -64,11 +80,14 @@ export default function TasksView({ tasks }) {
 					<Input
 						placeholder="Search tasks..."
 						className="w-65"
-						defaultValue={search}
+						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 					/>
 
-					<Select>
+					<Select
+						disabled={kanbanMode}
+						defaultValue={searchParams.get("status") || "all"}
+						onValueChange={(value) => updateParam("status", value)}>
 						<SelectTrigger className="w-35">
 							<SelectValue placeholder="Status" />
 						</SelectTrigger>
@@ -80,7 +99,9 @@ export default function TasksView({ tasks }) {
 						</SelectContent>
 					</Select>
 
-					<Select>
+					<Select
+						defaultValue={searchParams.get("sort") || ""}
+						onValueChange={(value) => updateParam("sort", value)}>
 						<SelectTrigger className="w-35">
 							<SelectValue placeholder="Sort" />
 						</SelectTrigger>
@@ -93,12 +114,30 @@ export default function TasksView({ tasks }) {
 
 				<div className="flex items-center gap-2">
 					<Label>List</Label>
-					<Switch checked={kanbanMode} onCheckedChange={setKanbanMode} />
+					<Switch
+						className="cursor-pointer"
+						checked={kanbanMode}
+						onCheckedChange={setKanbanMode}
+					/>
 					<Label>Kanban</Label>
 				</div>
 			</div>
 
-			{kanbanMode ? (
+			{isEmpty ? (
+				<div className="flex flex-col items-center justify-center py-20 text-center">
+					<SearchX className="w-10 h-10 text-muted-foreground mb-4" />
+
+					<p className="text-lg font-medium">
+						{hasSearch ? "No tasks found" : "No tasks yet"}
+					</p>
+
+					<p className="text-sm text-muted-foreground">
+						{hasSearch
+							? "Try adjusting your search or filters."
+							: "Create your first task to get started."}
+					</p>
+				</div>
+			) : kanbanMode ? (
 				<KanbanBoardClient tasks={tasks} />
 			) : (
 				<div className="space-y-4">
