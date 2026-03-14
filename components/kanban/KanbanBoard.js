@@ -58,7 +58,7 @@ export default function KanbanBoard({ tasks }) {
 
 	return (
 		<DndContext onDragEnd={handleDragEnd}>
-			<div className="grid grid-cols-3 gap-6 px-8">
+			<div className="grid grid-cols-3 gap-6">
 				<KanbanColumn title="Todo" tasks={columns.todo} status="todo" />
 				<KanbanColumn
 					title="In Progress"

@@ -2,6 +2,10 @@
 
 import { useDraggable } from "@dnd-kit/core";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar } from "lucide-react";
+import { priorityStyles } from "@/lib/taskStyles";
+import { formatDate } from "@/lib/formatDate";
 
 export default function KanbanTask({ task }) {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -18,14 +22,30 @@ export default function KanbanTask({ task }) {
 			style={style}
 			{...listeners}
 			{...attributes}
-			className="cursor-grab hover:bg-muted/40 transition-colors">
-			<CardContent className="p-3">
-				<p className="font-medium">{task.title}</p>
-				{task.description && (
-					<p className="text-sm text-muted-foreground mt-1">
-						{task.description}
-					</p>
-				)}
+			className="cursor-grab active:cursor-grabbing hover:bg-muted/40 transition-colors">
+			<CardContent className="py-2 space-y-3">
+				<div className="space-y-2">
+					<h4 className="text-sm font-semibold leading-snug">{task.title}</h4>
+					{task.description && (
+						<p className="text-xs text-muted-foreground line-clamp-1">
+							{task.description}
+						</p>
+					)}
+				</div>
+
+				{/* Footer */}
+				<div className="flex items-center justify-between text-xs">
+					<Badge className={priorityStyles[task.priority]}>
+						{task.priority}
+					</Badge>
+
+					{task.dueDate && (
+						<div className="flex items-center gap-1 text-xs text-orange-600">
+							<Calendar className="w-3 h-3" />
+							Due {formatDate(task.dueDate)}
+						</div>
+					)}
+				</div>
 			</CardContent>
 		</Card>
 	);

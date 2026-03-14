@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 
 export default function TasksView({ tasks }) {
 	const [kanbanMode, setKanbanMode] = useState(false);
+	const [isSearching, setIsSearching] = useState(false);
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -48,6 +49,11 @@ export default function TasksView({ tasks }) {
 
 		return () => clearTimeout(timer);
 	}, [search, currentSearch, searchParams, router]);
+
+	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		setIsSearching(false);
+	}, [tasks]);
 
 	const updateParam = (key, value) => {
 		const params = new URLSearchParams(searchParams.toString());
@@ -81,7 +87,10 @@ export default function TasksView({ tasks }) {
 						placeholder="Search tasks..."
 						className="w-65"
 						value={search}
-						onChange={(e) => setSearch(e.target.value)}
+						onChange={(e) => {
+							setSearch(e.target.value);
+							setIsSearching(true);
+						}}
 					/>
 
 					<Select
@@ -123,29 +132,34 @@ export default function TasksView({ tasks }) {
 				</div>
 			</div>
 
-			{isEmpty ? (
-				<div className="flex flex-col items-center justify-center py-20 text-center">
-					<SearchX className="w-10 h-10 text-muted-foreground mb-4" />
+			<div
+				className={`transition-opacity duration-200 ${
+					isSearching ? "opacity-30" : "opacity-100"
+				}`}>
+				{isEmpty ? (
+					<div className="flex flex-col items-center justify-center py-20 text-center">
+						<SearchX className="w-10 h-10 text-muted-foreground mb-4" />
 
-					<p className="text-lg font-medium">
-						{hasSearch ? "No tasks found" : "No tasks yet"}
-					</p>
+						<p className="text-lg font-medium">
+							{hasSearch ? "No tasks found" : "No tasks yet"}
+						</p>
 
-					<p className="text-sm text-muted-foreground">
-						{hasSearch
-							? "Try adjusting your search or filters."
-							: "Create your first task to get started."}
-					</p>
-				</div>
-			) : kanbanMode ? (
-				<KanbanBoardClient tasks={tasks} />
-			) : (
-				<div className="space-y-4">
-					{tasks.map((task) => (
-						<TaskCard key={task._id} task={task} />
-					))}
-				</div>
-			)}
+						<p className="text-sm text-muted-foreground">
+							{hasSearch
+								? "Try adjusting your search or filters."
+								: "Create your first task to get started."}
+						</p>
+					</div>
+				) : kanbanMode ? (
+					<KanbanBoardClient tasks={tasks} />
+				) : (
+					<div className="space-y-4">
+						{tasks.map((task) => (
+							<TaskCard key={task._id} task={task} />
+						))}
+					</div>
+				)}
+			</div>
 		</>
 	);
 }

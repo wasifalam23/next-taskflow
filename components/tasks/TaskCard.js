@@ -6,15 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Pencil } from "lucide-react";
 import DeleteTaskButton from "./DeleteTaskButton";
 import StatusSelect from "./StatusSelect";
+import { formatDate } from "@/lib/formatDate";
 import { priorityStyles } from "@/lib/taskStyles";
 import Link from "next/link";
-
-function formatDate(date) {
-	return new Date(date).toLocaleDateString("en-US", {
-		month: "short",
-		day: "numeric",
-	});
-}
 
 export default function TaskCardList({ task }) {
 	return (
