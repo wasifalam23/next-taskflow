@@ -16,14 +16,15 @@ import {
 } from "@/components/ui/select";
 
 export default function TaskForm({ task }) {
-	console.log("TASKS", task);
 	const router = useRouter();
 
 	const [title, setTitle] = useState(task?.title || "");
 	const [description, setDescription] = useState(task?.description || "");
-	const [status, setStatus] = useState(task?.status || "");
+	const [status, setStatus] = useState(task?.status || "todo");
 	const [priority, setPriority] = useState(task?.priority || "medium");
 	const [dueDate, setDueDate] = useState(task?.dueDate || "");
+
+	const [titleError, setTitleError] = useState("");
 
 	const editHandler = async () => {
 		const res = await fetch(`/api/tasks/${task._id}`, {
@@ -47,7 +48,7 @@ export default function TaskForm({ task }) {
 		e.preventDefault();
 
 		if (!title.trim()) {
-			alert("Title is required");
+			setTitleError("Title is required");
 			return;
 		}
 
@@ -76,16 +77,22 @@ export default function TaskForm({ task }) {
 	};
 
 	return (
-		<form onSubmit={formSubmitHandler} className="max-w-xl mt-8 space-y-6">
+		<form onSubmit={formSubmitHandler} className="max-w-2xl mt-8 space-y-6">
 			<div className="space-y-2">
 				<Label htmlFor="title">Title</Label>
 
 				<Input
 					id="title"
 					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					className={`py-4.5! ${titleError ? "border-red-500" : ""}`}
+					onChange={(e) => {
+						setTitle(e.target.value);
+						if (titleError) setTitleError("");
+					}}
 					placeholder="Task title"
 				/>
+
+				{titleError && <p className="text-sm text-red-500">{titleError}</p>}
 			</div>
 
 			<div className="space-y-2">
@@ -105,8 +112,8 @@ export default function TaskForm({ task }) {
 					<Label>Status</Label>
 
 					<Select value={status} onValueChange={setStatus}>
-						<SelectTrigger>
-							<SelectValue />
+						<SelectTrigger className="w-full max-w-36">
+							<SelectValue placeholder="Select status" />
 						</SelectTrigger>
 
 						<SelectContent>
@@ -121,7 +128,7 @@ export default function TaskForm({ task }) {
 					<Label>Priority</Label>
 
 					<Select value={priority} onValueChange={setPriority}>
-						<SelectTrigger>
+						<SelectTrigger className="w-full max-w-24">
 							<SelectValue />
 						</SelectTrigger>
 
@@ -134,7 +141,7 @@ export default function TaskForm({ task }) {
 				</div>
 			</div>
 
-			<div className="space-y-2">
+			<div className="space-y-2 w-fit">
 				<Label htmlFor="dueDate">Due Date</Label>
 
 				<Input
@@ -146,7 +153,13 @@ export default function TaskForm({ task }) {
 			</div>
 
 			<div className="flex justify-end">
-				<Button type="submit">{task ? "Update Task" : "Create Task"}</Button>
+				<Button
+					size="lg"
+					variant="default"
+					className=" cursor-pointer"
+					type="submit">
+					{task ? "Update Task" : "Create Task"}
+				</Button>
 			</div>
 		</form>
 	);

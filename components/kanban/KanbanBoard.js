@@ -1,11 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { DndContext } from "@dnd-kit/core";
 import KanbanColumn from "./KanbanColumn";
 import { useState, useEffect } from "react";
 
 export default function KanbanBoard({ tasks }) {
 	const [items, setItems] = useState(tasks);
+
+	const router = useRouter();
 
 	useEffect(() => {
 		setItems(tasks);
@@ -54,6 +57,8 @@ export default function KanbanBoard({ tasks }) {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ status: newStatus }),
 		});
+
+		router.refresh();
 	};
 
 	return (
