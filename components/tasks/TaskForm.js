@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,8 @@ export default function TaskForm({ task }) {
 			throw new Error("Failed to update task");
 		}
 
+		toast.success("Task updated successfully");
+
 		const data = await res.json();
 		console.log("Data", data);
 		router.push("/tasks");
@@ -54,7 +56,7 @@ export default function TaskForm({ task }) {
 
 		try {
 			if (task) {
-				await editHandler(task);
+				await editHandler();
 				return;
 			}
 
@@ -69,6 +71,8 @@ export default function TaskForm({ task }) {
 			if (!res.ok) {
 				throw new Error("Failed to create task");
 			}
+
+			toast.success("Task has been created");
 
 			router.push("/tasks");
 		} catch (err) {

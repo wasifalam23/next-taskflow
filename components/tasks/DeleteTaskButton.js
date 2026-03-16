@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
 	AlertDialog,
@@ -27,6 +28,7 @@ export default function DeleteTaskButton({ id }) {
 				throw new Error("Failed to delete task");
 			}
 
+			toast.success("Task deleted");
 			router.refresh();
 		} catch (err) {
 			console.error(err);
