@@ -27,6 +27,12 @@ const TaskSchema = new Schema(
 		completedAt: {
 			type: Date,
 		},
+
+		userId: {
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
 	},
 	{ timestamps: true },
 );

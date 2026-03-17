@@ -1,11 +1,28 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongoose";
 import { Task } from "@/models/Task";
+import mongoose from "mongoose";
 
 export async function GET(req) {
 	try {
+		const session = await getServerSession(authOptions);
+
+		if (!session) {
+			return Response.json(
+				{ success: false, message: "Unauthorized" },
+				{ status: 401 },
+			);
+		}
+
 		await connectDB();
 
 		const stats = await Task.aggregate([
+			{
+				$match: {
+					userId: new mongoose.Types.ObjectId(session.user.id),
+				},
+			},
 			{
 				$group: {
 					_id: null,

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { LayoutDashboard, ListTodo, Plus } from "lucide-react";
+import LoginButton from "@/components/LoginButton";
 
 export function AppSidebar() {
 	const pathname = usePathname();
@@ -71,6 +72,7 @@ export function AppSidebar() {
 			</SidebarContent>
 
 			<SidebarFooter className="border-t p-4 text-sm text-muted-foreground">
+				<LoginButton />
 				TaskFlow v1
 			</SidebarFooter>
 		</Sidebar>
