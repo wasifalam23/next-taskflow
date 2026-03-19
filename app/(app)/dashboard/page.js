@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 import { getTasks, getTaskStats } from "@/lib/tasks";
 import Link from "next/link";
 import { Plus } from "lucide-react";
@@ -5,8 +7,15 @@ import RecentTasks from "@/components/dashboard/RecentTasks";
 import StatsCards from "@/components/dashboard/StatsCards";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { authOptions } from "@/lib/auth";
 
 export default async function DashboardPage() {
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		redirect("/login");
+	}
+
 	const stats = await getTaskStats();
 	const recentTasks = await getTasks(5);
 

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongoose";
@@ -9,8 +10,10 @@ export default async function TasksPage({ searchParams }) {
 	const session = await getServerSession(authOptions);
 
 	if (!session) {
-		return <div>Unauthorized</div>; // or redirect later
+		redirect("/login");
 	}
+
+	console.log(session);
 
 	const params = await searchParams;
 
