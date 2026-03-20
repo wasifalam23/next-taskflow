@@ -10,9 +10,23 @@ import { formatDate } from "@/lib/formatDate";
 import { priorityStyles } from "@/lib/taskStyles";
 import Link from "next/link";
 
+const isOverdue = (dueDate, status) => {
+	if (!dueDate || status === "done") return false;
+
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
+	const taskDueDate = new Date(dueDate);
+	taskDueDate.setHours(0, 0, 0, 0);
+
+	return taskDueDate < today;
+};
+
 export default function TaskCardList({ task }) {
+	const overdue = isOverdue(task.dueDate, task.status);
+
 	return (
-		<Card className=" hover:shadow-md transition">
+		<Card className="hover:shadow-md transition">
 			<CardContent className="p-4 space-y-3">
 				<div className="flex justify-between items-start">
 					<div className="flex gap-4 items-center">
@@ -34,7 +48,10 @@ export default function TaskCardList({ task }) {
 
 				<div className="flex flex-col text-xs text-muted-foreground gap-1">
 					{task.dueDate && (
-						<div className="flex items-center gap-1 text-xs text-orange-600">
+						<div
+							className={`flex items-center gap-1 text-xs ${
+								overdue ? "text-red-600" : "text-muted-foreground"
+							}`}>
 							<Calendar className="w-3 h-3" />
 							Due {formatDate(task.dueDate)}
 						</div>
@@ -50,7 +67,7 @@ export default function TaskCardList({ task }) {
 
 				<div className="flex justify-end gap-2 pt-2">
 					<Button size="icon" variant="ghost">
-						<Link href={`/tasks/${task._id}`} className="">
+						<Link href={`/tasks/${task._id}`}>
 							<Pencil className="w-4 h-4" />
 						</Link>
 					</Button>

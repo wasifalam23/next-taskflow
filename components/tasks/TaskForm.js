@@ -15,6 +15,8 @@ import {
 	SelectItem,
 } from "@/components/ui/select";
 
+import { formatDateForInput } from "@/lib/formatDate";
+
 export default function TaskForm({ task }) {
 	const router = useRouter();
 
@@ -22,7 +24,7 @@ export default function TaskForm({ task }) {
 	const [description, setDescription] = useState(task?.description || "");
 	const [status, setStatus] = useState(task?.status || "todo");
 	const [priority, setPriority] = useState(task?.priority || "medium");
-	const [dueDate, setDueDate] = useState(task?.dueDate || "");
+	const [dueDate, setDueDate] = useState(formatDateForInput(task?.dueDate));
 
 	const [titleError, setTitleError] = useState("");
 

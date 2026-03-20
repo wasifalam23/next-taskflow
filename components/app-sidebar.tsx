@@ -88,7 +88,7 @@ export function AppSidebar() {
 							{/* Avatar */}
 							<div className="w-10 h-10 relative">
 								<Image
-									src={session?.user?.image || "/default-avatar.png"}
+									src={session?.user?.image || "/default-avatar.jpg"}
 									alt="User"
 									fill
 									sizes="40px"
