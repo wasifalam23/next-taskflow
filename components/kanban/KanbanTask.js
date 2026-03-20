@@ -7,6 +7,18 @@ import { Calendar } from "lucide-react";
 import { priorityStyles } from "@/lib/taskStyles";
 import { formatDate } from "@/lib/formatDate";
 
+const isOverdue = (dueDate, status) => {
+	if (!dueDate || status === "done") return false;
+
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
+	const taskDueDate = new Date(dueDate);
+	taskDueDate.setHours(0, 0, 0, 0);
+
+	return taskDueDate < today;
+};
+
 export default function KanbanTask({ task }) {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({
 		id: task._id,
@@ -15,6 +27,8 @@ export default function KanbanTask({ task }) {
 	const style = transform
 		? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
 		: undefined;
+
+	const overdue = isOverdue(task.dueDate, task.status);
 
 	return (
 		<Card
@@ -40,7 +54,10 @@ export default function KanbanTask({ task }) {
 					</Badge>
 
 					{task.dueDate && (
-						<div className="flex items-center gap-1 text-xs text-orange-600">
+						<div
+							className={`flex items-center gap-1 text-xs ${
+								overdue ? "text-red-600" : "text-muted-foreground"
+							}`}>
 							<Calendar className="w-3 h-3" />
 							Due {formatDate(task.dueDate)}
 						</div>
