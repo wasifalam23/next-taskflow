@@ -1,16 +1,16 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-import { authOptions } from "@/lib/auth";
+import { authOptions } from '@/lib/auth';
 
-import TaskForm from "@/components/tasks/TaskForm";
+import TaskForm from '@/components/tasks/TaskForm';
 
 export default async function NewTaskPage() {
 	const session = await getServerSession(authOptions);
 
 	// 🔥 Protect route
 	if (!session) {
-		redirect("/login");
+		redirect('/login');
 	}
 
 	return (

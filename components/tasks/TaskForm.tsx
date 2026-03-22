@@ -1,58 +1,74 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import {
 	Select,
 	SelectTrigger,
 	SelectValue,
 	SelectContent,
 	SelectItem,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { formatDateForInput } from "@/lib/formatDate";
+import { formatDateForInput } from '@/lib/formatDate';
 
-export default function TaskForm({ task }) {
+type TaskStatus = 'todo' | 'in-progress' | 'done';
+type TaskPriority = 'low' | 'medium' | 'high';
+
+type TaskFormProps = {
+	task?: {
+		_id?: string;
+		title?: string;
+		description?: string;
+		status?: TaskStatus;
+		priority?: TaskPriority;
+		dueDate?: Date | string | null;
+	};
+};
+
+export default function TaskForm({ task }: TaskFormProps) {
 	const router = useRouter();
 
-	const [title, setTitle] = useState(task?.title || "");
-	const [description, setDescription] = useState(task?.description || "");
-	const [status, setStatus] = useState(task?.status || "todo");
-	const [priority, setPriority] = useState(task?.priority || "medium");
+	const [title, setTitle] = useState(task?.title || '');
+	const [description, setDescription] = useState(task?.description || '');
+	const [status, setStatus] = useState(task?.status || 'todo');
+	const [priority, setPriority] = useState(task?.priority || 'medium');
 	const [dueDate, setDueDate] = useState(formatDateForInput(task?.dueDate));
 
-	const [titleError, setTitleError] = useState("");
+	const [titleError, setTitleError] = useState('');
 
 	const editHandler = async () => {
-		const res = await fetch(`/api/tasks/${task._id}`, {
-			method: "PATCH",
+		const res = await fetch(`/api/tasks/${task?._id}`, {
+			method: 'PATCH',
 			headers: {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ title, description, status, priority, dueDate }),
 		});
 
 		if (!res.ok) {
-			throw new Error("Failed to update task");
+			throw new Error('Failed to update task');
 		}
 
-		toast.success("Task updated successfully");
+		toast.success('Task updated successfully');
 
 		const data = await res.json();
-		console.log("Data", data);
-		router.push("/tasks");
+		console.log('Data', data);
+		router.push('/tasks');
 	};
 
-	const formSubmitHandler = async (e) => {
+	const formSubmitHandler = async (
+		e: React.SyntheticEvent<HTMLFormElement>,
+	) => {
 		e.preventDefault();
 
 		if (!title.trim()) {
-			setTitleError("Title is required");
+			setTitleError('Title is required');
 			return;
 		}
 
@@ -62,21 +78,21 @@ export default function TaskForm({ task }) {
 				return;
 			}
 
-			const res = await fetch("/api/tasks", {
-				method: "POST",
+			const res = await fetch('/api/tasks', {
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ title, description, status, priority, dueDate }),
 			});
 
 			if (!res.ok) {
-				throw new Error("Failed to create task");
+				throw new Error('Failed to create task');
 			}
 
-			toast.success("Task has been created");
+			toast.success('Task has been created');
 
-			router.push("/tasks");
+			router.push('/tasks');
 		} catch (err) {
 			console.error(err);
 		}
@@ -90,10 +106,10 @@ export default function TaskForm({ task }) {
 				<Input
 					id="title"
 					value={title}
-					className={`py-4.5! ${titleError ? "border-red-500" : ""}`}
+					className={`py-4.5! ${titleError ? 'border-red-500' : ''}`}
 					onChange={(e) => {
 						setTitle(e.target.value);
-						if (titleError) setTitleError("");
+						if (titleError) setTitleError('');
 					}}
 					placeholder="Task title"
 				/>
@@ -117,7 +133,9 @@ export default function TaskForm({ task }) {
 				<div className="space-y-2">
 					<Label>Status</Label>
 
-					<Select value={status} onValueChange={setStatus}>
+					<Select
+						value={status}
+						onValueChange={(value) => setStatus(value as TaskStatus)}>
 						<SelectTrigger className="w-full max-w-36">
 							<SelectValue placeholder="Select status" />
 						</SelectTrigger>
@@ -133,7 +151,9 @@ export default function TaskForm({ task }) {
 				<div className="space-y-2">
 					<Label>Priority</Label>
 
-					<Select value={priority} onValueChange={setPriority}>
+					<Select
+						value={priority}
+						onValueChange={(value) => setPriority(value as TaskPriority)}>
 						<SelectTrigger className="w-full max-w-24">
 							<SelectValue />
 						</SelectTrigger>
@@ -164,7 +184,7 @@ export default function TaskForm({ task }) {
 					variant="default"
 					className=" cursor-pointer"
 					type="submit">
-					{task ? "Update Task" : "Create Task"}
+					{task ? 'Update Task' : 'Create Task'}
 				</Button>
 			</div>
 		</form>
