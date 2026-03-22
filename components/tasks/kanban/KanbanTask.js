@@ -6,18 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
 import { priorityStyles } from "@/lib/taskStyles";
 import { formatDate } from "@/lib/formatDate";
-
-const isOverdue = (dueDate, status) => {
-	if (!dueDate || status === "done") return false;
-
-	const today = new Date();
-	today.setHours(0, 0, 0, 0);
-
-	const taskDueDate = new Date(dueDate);
-	taskDueDate.setHours(0, 0, 0, 0);
-
-	return taskDueDate < today;
-};
+import { isOverdue } from "@/lib/helpers";
 
 export default function KanbanTask({ task }) {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({

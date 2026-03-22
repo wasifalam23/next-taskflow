@@ -16,8 +16,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-import KanbanBoardClient from "@/components/kanban/KanbanBoardClient";
-import TaskCard from "@/components/tasks/TaskCard";
+import KanbanBoardClient from "@/components/tasks/kanban/KanbanBoardClient";
+import TaskCard from "@/components/tasks/list/TaskCard";
 import { Button } from "@/components/ui/button";
 
 export default function TasksView({ tasks }) {
@@ -73,16 +73,18 @@ export default function TasksView({ tasks }) {
 		<>
 			<div className="flex items-center justify-between py-8">
 				<h1 className="text-3xl font-medium">Tasks</h1>
+
 				<Button size="lg" asChild>
 					<Link href="/tasks/new">
-						<Plus className="w-4 h-4" />
-						Create new task
+						<Plus className="h-4 w-4" />
+						<span className="sm:hidden">New task</span>
+						<span className="hidden sm:inline">Create new task</span>
 					</Link>
 				</Button>
 			</div>
 
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-				<div className="flex items-center gap-3">
+				<div className="flex items-center gap-3 flex-wrap">
 					<Input
 						placeholder="Search tasks..."
 						className="w-65"

@@ -34,7 +34,6 @@ export default function KanbanBoard({ tasks }) {
 
 		if (!movedTask) return;
 
-		// ✅ Ignore drop if same column
 		if (movedTask.status === newStatus) {
 			return;
 		}
@@ -47,11 +46,9 @@ export default function KanbanBoard({ tasks }) {
 
 			const updatedTask = { ...movedTask, status: newStatus };
 
-			// put moved task at the beginning
 			return [updatedTask, ...remaining];
 		});
 
-		// update backend
 		await fetch(`/api/tasks/${taskId}`, {
 			method: "PATCH",
 			headers: { "Content-Type": "application/json" },

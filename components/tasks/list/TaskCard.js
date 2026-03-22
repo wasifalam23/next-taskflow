@@ -9,18 +9,7 @@ import StatusSelect from "./StatusSelect";
 import { formatDate } from "@/lib/formatDate";
 import { priorityStyles } from "@/lib/taskStyles";
 import Link from "next/link";
-
-const isOverdue = (dueDate, status) => {
-	if (!dueDate || status === "done") return false;
-
-	const today = new Date();
-	today.setHours(0, 0, 0, 0);
-
-	const taskDueDate = new Date(dueDate);
-	taskDueDate.setHours(0, 0, 0, 0);
-
-	return taskDueDate < today;
-};
+import { isOverdue } from "@/lib/helpers";
 
 export default function TaskCardList({ task }) {
 	const overdue = isOverdue(task.dueDate, task.status);
