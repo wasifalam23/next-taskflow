@@ -29,7 +29,9 @@
 		".next/types/**/*.ts",
 		".next/dev/types/**/*.ts",
 		"**/*.mts",
-		"components/layout/Sidebar.js"
+		"components/layout/Sidebar.js",
+		"app/login/page.js",
+		"lib/mongoose.js"
 	],
 	"exclude": ["node_modules"]
 }
