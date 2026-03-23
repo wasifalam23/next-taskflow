@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
 
 import {
 	Sidebar,
@@ -21,9 +21,9 @@ import {
 	SidebarMenuItem,
 	SidebarMenuButton,
 	SidebarFooter,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
-import { LayoutDashboard, ListTodo, Plus } from "lucide-react";
+import { LayoutDashboard, ListTodo, Plus } from 'lucide-react';
 
 export function AppSidebar() {
 	const pathname = usePathname();
@@ -41,7 +41,7 @@ export function AppSidebar() {
 							<SidebarMenuButton
 								size="lg"
 								asChild
-								isActive={pathname === "/dashboard"}
+								isActive={pathname === '/dashboard'}
 								className="text-base  hover:bg-slate-200 data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600">
 								<Link href="/dashboard" className="flex items-center gap-2">
 									<LayoutDashboard size={18} className="text-slate-500" />
@@ -54,7 +54,7 @@ export function AppSidebar() {
 							<SidebarMenuButton
 								size="lg"
 								asChild
-								isActive={pathname === "/tasks"}
+								isActive={pathname === '/tasks'}
 								className="text-base  hover:bg-slate-200 data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600">
 								<Link href="/tasks" className="flex items-center gap-2">
 									<ListTodo size={18} className="text-slate-500" />
@@ -67,7 +67,7 @@ export function AppSidebar() {
 							<SidebarMenuButton
 								size="lg"
 								asChild
-								isActive={pathname === "/tasks/new"}
+								isActive={pathname === '/tasks/new'}
 								className="text-base  hover:bg-slate-200 data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600">
 								<Link href="/tasks/new" className="flex items-center gap-2">
 									<Plus size={18} className="text-slate-500" />
@@ -88,7 +88,7 @@ export function AppSidebar() {
 							{/* Avatar */}
 							<div className="w-10 h-10 relative">
 								<Image
-									src={session?.user?.image || "/default-avatar.jpg"}
+									src={session?.user?.image || '/default-avatar.jpg'}
 									alt="User"
 									fill
 									sizes="40px"
@@ -110,7 +110,7 @@ export function AppSidebar() {
 
 					<DropdownMenuContent align="end" className="w-48">
 						<DropdownMenuItem
-							onClick={() => signOut({ callbackUrl: "/login" })}
+							onClick={() => signOut({ callbackUrl: '/login' })}
 							className="cursor-pointer text-red-500">
 							Logout
 						</DropdownMenuItem>

@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const TaskSchema = new Schema(
 	{
@@ -9,17 +9,17 @@ const TaskSchema = new Schema(
 		},
 		description: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		status: {
 			type: String,
-			enum: ["todo", "in-progress", "done"],
-			default: "todo",
+			enum: ['todo', 'in-progress', 'done'],
+			default: 'todo',
 		},
 		priority: {
 			type: String,
-			enum: ["low", "medium", "high"],
-			default: "medium",
+			enum: ['low', 'medium', 'high'],
+			default: 'medium',
 		},
 		dueDate: {
 			type: Date,
@@ -30,11 +30,11 @@ const TaskSchema = new Schema(
 
 		userId: {
 			type: Schema.Types.ObjectId,
-			ref: "User",
+			ref: 'User',
 			required: true,
 		},
 	},
 	{ timestamps: true },
 );
 
-export const Task = models.Task || model("Task", TaskSchema);
+export const Task = models.Task || model('Task', TaskSchema);

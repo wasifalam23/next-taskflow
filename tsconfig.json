@@ -31,7 +31,7 @@
 		"**/*.mts",
 		"components/layout/Sidebar.js",
 		"app/login/page.tsx",
-		"lib/mongoose.js"
+		"lib/mongoose.ts"
 	],
 	"exclude": ["node_modules"]
 }

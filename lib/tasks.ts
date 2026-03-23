@@ -1,13 +1,13 @@
-import { connectDB } from "./mongoose";
-import { Task } from "@/models/Task";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import mongoose from "mongoose";
+import { connectDB } from './mongoose';
+import { Task } from '@/models/Task';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import mongoose from 'mongoose';
 
-export async function getTasks(limit) {
+export async function getTasks(limit: number) {
 	const session = await getServerSession(authOptions);
 
-	if (!session) throw new Error("Unauthorized");
+	if (!session) throw new Error('Unauthorized');
 
 	await connectDB();
 
@@ -27,10 +27,10 @@ export async function getTasks(limit) {
 	}));
 }
 
-export async function getTaskById(id) {
+export async function getTaskById(id: string) {
 	const session = await getServerSession(authOptions);
 
-	if (!session) throw new Error("Unauthorized");
+	if (!session) throw new Error('Unauthorized');
 
 	await connectDB();
 	const task = await Task.findOne({
@@ -46,7 +46,7 @@ export async function getTaskById(id) {
 export async function getTaskStats() {
 	const session = await getServerSession(authOptions);
 
-	if (!session) throw new Error("Unauthorized");
+	if (!session) throw new Error('Unauthorized');
 
 	await connectDB();
 
@@ -64,13 +64,13 @@ export async function getTaskStats() {
 
 				completed: {
 					$sum: {
-						$cond: [{ $eq: ["$status", "done"] }, 1, 0],
+						$cond: [{ $eq: ['$status', 'done'] }, 1, 0],
 					},
 				},
 
 				pending: {
 					$sum: {
-						$cond: [{ $ne: ["$status", "done"] }, 1, 0],
+						$cond: [{ $ne: ['$status', 'done'] }, 1, 0],
 					},
 				},
 
@@ -79,9 +79,9 @@ export async function getTaskStats() {
 						$cond: [
 							{
 								$and: [
-									{ $eq: [{ $type: "$dueDate" }, "date"] },
-									{ $lt: ["$dueDate", today] },
-									{ $ne: ["$status", "done"] },
+									{ $eq: [{ $type: '$dueDate' }, 'date'] },
+									{ $lt: ['$dueDate', today] },
+									{ $ne: ['$status', 'done'] },
 								],
 							},
 							1,

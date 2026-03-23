@@ -1,16 +1,16 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { connectDB } from "@/lib/mongoose";
-import { Task } from "@/models/Task";
-import mongoose from "mongoose";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { connectDB } from '@/lib/mongoose';
+import { Task } from '@/models/Task';
+import mongoose from 'mongoose';
 
-export async function GET(req) {
+export async function GET() {
 	try {
 		const session = await getServerSession(authOptions);
 
 		if (!session) {
 			return Response.json(
-				{ success: false, message: "Unauthorized" },
+				{ success: false, message: 'Unauthorized' },
 				{ status: 401 },
 			);
 		}
@@ -30,13 +30,13 @@ export async function GET(req) {
 
 					completed: {
 						$sum: {
-							$cond: [{ $eq: ["$status", "done"] }, 1, 0],
+							$cond: [{ $eq: ['$status', 'done'] }, 1, 0],
 						},
 					},
 
 					pending: {
 						$sum: {
-							$cond: [{ $ne: ["$status", "done"] }, 1, 0],
+							$cond: [{ $ne: ['$status', 'done'] }, 1, 0],
 						},
 					},
 
@@ -45,8 +45,8 @@ export async function GET(req) {
 							$cond: [
 								{
 									$and: [
-										{ $lt: ["$dueDate", new Date()] },
-										{ $ne: ["$status", "done"] },
+										{ $lt: ['$dueDate', new Date()] },
+										{ $ne: ['$status', 'done'] },
 									],
 								},
 								1,
@@ -63,7 +63,7 @@ export async function GET(req) {
 			{ status: 200 },
 		);
 	} catch (error) {
-		console.log("GET /api/tasks/stats error:", error);
-		return Response.json({ error: "Internal Server Error" }, { status: 500 });
+		console.log('GET /api/tasks/stats error:', error);
+		return Response.json({ error: 'Internal Server Error' }, { status: 500 });
 	}
 }
