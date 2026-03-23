@@ -1,17 +1,23 @@
-"use client";
+'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Pencil } from "lucide-react";
-import DeleteTaskButton from "./DeleteTaskButton";
-import StatusSelect from "./StatusSelect";
-import { formatDate } from "@/lib/formatDate";
-import { priorityStyles } from "@/lib/taskStyles";
-import Link from "next/link";
-import { isOverdue } from "@/lib/helpers";
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Calendar, Clock, Pencil } from 'lucide-react';
+import DeleteTaskButton from './DeleteTaskButton';
+import StatusSelect from './StatusSelect';
+import { formatDate } from '@/lib/formatDate';
+import { priorityStyles } from '@/lib/taskStyles';
+import Link from 'next/link';
+import { isOverdue } from '@/lib/helpers';
 
-export default function TaskCardList({ task }) {
+import type { Task } from '@/types/task';
+
+type TaskCardProps = {
+	task: Task;
+};
+
+export default function TaskCard({ task }: TaskCardProps) {
 	const overdue = isOverdue(task.dueDate, task.status);
 
 	return (
@@ -39,7 +45,7 @@ export default function TaskCardList({ task }) {
 					{task.dueDate && (
 						<div
 							className={`flex items-center gap-1 text-xs ${
-								overdue ? "text-red-600" : "text-muted-foreground"
+								overdue ? 'text-red-600' : 'text-muted-foreground'
 							}`}>
 							<Calendar className="w-3 h-3" />
 							Due {formatDate(task.dueDate)}

@@ -30,7 +30,7 @@
 		".next/dev/types/**/*.ts",
 		"**/*.mts",
 		"components/layout/Sidebar.js",
-		"app/login/page.js",
+		"app/login/page.tsx",
 		"lib/mongoose.js"
 	],
 	"exclude": ["node_modules"]

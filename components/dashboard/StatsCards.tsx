@@ -1,7 +1,16 @@
-import { ListTodo, CheckCircle2, Clock, AlertCircle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ListTodo, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function StatsCards({ stats }) {
+type StatsCardsProps = {
+	stats: {
+		total: number;
+		completed: number;
+		pending: number;
+		overdue: number;
+	};
+};
+
+export default function StatsCards({ stats }: StatsCardsProps) {
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
 			<Card>

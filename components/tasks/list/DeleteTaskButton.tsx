@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import {
 	AlertDialog,
@@ -13,22 +13,22 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Trash } from 'lucide-react';
 
-export default function DeleteTaskButton({ id }) {
+export default function DeleteTaskButton({ id }: { id: string }) {
 	const router = useRouter();
 
 	const deleteTaskHandler = async () => {
 		try {
-			const res = await fetch(`/api/tasks/${id}`, { method: "DELETE" });
+			const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
 
 			if (!res.ok) {
-				throw new Error("Failed to delete task");
+				throw new Error('Failed to delete task');
 			}
 
-			toast.success("Task deleted");
+			toast.success('Task deleted');
 			router.refresh();
 		} catch (err) {
 			console.error(err);

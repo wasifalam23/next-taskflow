@@ -1,14 +1,19 @@
-"use client";
+'use client';
 
-import { useDraggable } from "@dnd-kit/core";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar } from "lucide-react";
-import { priorityStyles } from "@/lib/taskStyles";
-import { formatDate } from "@/lib/formatDate";
-import { isOverdue } from "@/lib/helpers";
+import { useDraggable } from '@dnd-kit/core';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Calendar } from 'lucide-react';
+import { priorityStyles } from '@/lib/taskStyles';
+import { formatDate } from '@/lib/formatDate';
+import { isOverdue } from '@/lib/helpers';
+import type { Task } from '@/types/task';
 
-export default function KanbanTask({ task }) {
+type KanbanTaskProps = {
+	task: Task;
+};
+
+export default function KanbanTask({ task }: KanbanTaskProps) {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({
 		id: task._id,
 	});
@@ -45,7 +50,7 @@ export default function KanbanTask({ task }) {
 					{task.dueDate && (
 						<div
 							className={`flex items-center gap-1 text-xs ${
-								overdue ? "text-red-600" : "text-muted-foreground"
+								overdue ? 'text-red-600' : 'text-muted-foreground'
 							}`}>
 							<Calendar className="w-3 h-3" />
 							Due {formatDate(task.dueDate)}

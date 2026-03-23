@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function LoginPage() {
 	const { data: session } = useSession();
@@ -11,7 +11,7 @@ export default function LoginPage() {
 
 	useEffect(() => {
 		if (session) {
-			router.push("/tasks");
+			router.push('/tasks');
 		}
 	}, [session, router]);
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
 
 				<Button
 					size="lg"
-					onClick={() => signIn("google")}
+					onClick={() => signIn('google')}
 					className="w-full flex items-center justify-center gap-3 bg-white text-black border border-gray-300 hover:bg-gray-100 shadow-sm cursor-pointer">
 					{/* Google SVG */}
 					<svg

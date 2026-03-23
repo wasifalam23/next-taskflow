@@ -1,9 +1,14 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import { statusStyles } from "@/lib/taskStyles";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+import { statusStyles } from '@/lib/taskStyles';
+import type { Task } from '@/types/task';
 
-export default function RecentTasks({ tasks }) {
+type RecentTasksProps = {
+	tasks: Pick<Task, '_id' | 'title' | 'status' | 'createdAt' | 'completedAt'>[];
+};
+
+export default function RecentTasks({ tasks }: RecentTasksProps) {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-center justify-between">
@@ -24,18 +29,18 @@ export default function RecentTasks({ tasks }) {
 
 				{tasks.map((task) => {
 					const date =
-						task.status === "done" && task.completedAt
+						task.status === 'done' && task.completedAt
 							? task.completedAt
 							: task.createdAt;
 
-					const formattedDate = new Date(date).toLocaleDateString("en-US", {
-						month: "short",
-						day: "numeric",
+					const formattedDate = new Date(date).toLocaleDateString('en-US', {
+						month: 'short',
+						day: 'numeric',
 					});
 
 					const statusLabel =
-						task.status === "in-progress"
-							? "In Progress"
+						task.status === 'in-progress'
+							? 'In Progress'
 							: task.status.charAt(0).toUpperCase() + task.status.slice(1);
 
 					return (

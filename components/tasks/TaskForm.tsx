@@ -16,19 +16,15 @@ import {
 } from '@/components/ui/select';
 
 import { formatDateForInput } from '@/lib/formatDate';
-
-type TaskStatus = 'todo' | 'in-progress' | 'done';
-type TaskPriority = 'low' | 'medium' | 'high';
+import type { Task, TaskStatus, TaskPriority } from '@/types/task';
 
 type TaskFormProps = {
-	task?: {
-		_id?: string;
-		title?: string;
-		description?: string;
-		status?: TaskStatus;
-		priority?: TaskPriority;
-		dueDate?: Date | string | null;
-	};
+	task?: Partial<
+		Pick<
+			Task,
+			'_id' | 'title' | 'description' | 'status' | 'priority' | 'dueDate'
+		>
+	>;
 };
 
 export default function TaskForm({ task }: TaskFormProps) {

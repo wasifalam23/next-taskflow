@@ -1,10 +1,21 @@
-"use client";
+'use client';
 
-import { useDroppable } from "@dnd-kit/core";
-import KanbanTask from "./KanbanTask";
-import { columnStyles } from "@/lib/taskStyles";
+import { useDroppable } from '@dnd-kit/core';
+import KanbanTask from './KanbanTask';
+import { columnStyles } from '@/lib/taskStyles';
+import type { Task, TaskStatus } from '@/types/task';
 
-export default function KanbanColumn({ title, tasks, status }) {
+type KanbanColumnProps = {
+	title: string;
+	tasks: Task[];
+	status: TaskStatus;
+};
+
+export default function KanbanColumn({
+	title,
+	tasks,
+	status,
+}: KanbanColumnProps) {
 	const { setNodeRef } = useDroppable({
 		id: status,
 	});

@@ -21,8 +21,6 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
 		redirect('/login');
 	}
 
-	console.log(session);
-
 	const params = await searchParams;
 
 	const search = params.search ?? '';

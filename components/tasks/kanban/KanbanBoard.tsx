@@ -1,11 +1,16 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { DndContext } from "@dnd-kit/core";
-import KanbanColumn from "./KanbanColumn";
-import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import KanbanColumn from './KanbanColumn';
+import { useState, useEffect } from 'react';
+import type { Task, TaskStatus } from '@/types/task';
 
-export default function KanbanBoard({ tasks }) {
+type KanbanBoardProps = {
+	tasks: Task[];
+};
+
+export default function KanbanBoard({ tasks }: KanbanBoardProps) {
 	const [items, setItems] = useState(tasks);
 
 	const router = useRouter();
@@ -15,12 +20,12 @@ export default function KanbanBoard({ tasks }) {
 	}, [tasks]);
 
 	const columns = {
-		todo: items.filter((t) => t.status === "todo"),
-		"in-progress": items.filter((t) => t.status === "in-progress"),
-		done: items.filter((t) => t.status === "done"),
+		todo: items.filter((t) => t.status === 'todo'),
+		'in-progress': items.filter((t) => t.status === 'in-progress'),
+		done: items.filter((t) => t.status === 'done'),
 	};
 
-	const handleDragEnd = async (event) => {
+	const handleDragEnd = async (event: DragEndEvent) => {
 		const { active, over } = event;
 
 		if (!over) return;
@@ -28,7 +33,7 @@ export default function KanbanBoard({ tasks }) {
 		// console.log(event);
 
 		const taskId = active.id;
-		const newStatus = over.id;
+		const newStatus = over.id as TaskStatus;
 
 		const movedTask = items.find((t) => t._id.toString() === taskId.toString());
 
@@ -50,8 +55,8 @@ export default function KanbanBoard({ tasks }) {
 		});
 
 		await fetch(`/api/tasks/${taskId}`, {
-			method: "PATCH",
-			headers: { "Content-Type": "application/json" },
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ status: newStatus }),
 		});
 
@@ -64,7 +69,7 @@ export default function KanbanBoard({ tasks }) {
 				<KanbanColumn title="Todo" tasks={columns.todo} status="todo" />
 				<KanbanColumn
 					title="In Progress"
-					tasks={columns["in-progress"]}
+					tasks={columns['in-progress']}
 					status="in-progress"
 				/>
 				<KanbanColumn title="Done" tasks={columns.done} status="done" />
