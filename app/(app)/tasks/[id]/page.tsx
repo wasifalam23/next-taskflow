@@ -1,9 +1,11 @@
+import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 import { getTaskById } from '@/lib/tasks';
 import TaskForm from '@/components/tasks/TaskForm';
+import mongoose from 'mongoose';
 
 type EditTaskPageProps = {
 	params: Promise<{
@@ -20,7 +22,16 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
 
 	const { id } = await params;
 
+	if (mongoose.Types.ObjectId.isValid(id)) {
+		notFound();
+	}
+
 	const task = await getTaskById(id);
+
+	if (!task) {
+		notFound();
+	}
+
 	const taskData = JSON.parse(JSON.stringify(task));
 
 	return (

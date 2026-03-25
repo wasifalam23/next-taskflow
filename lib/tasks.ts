@@ -12,7 +12,7 @@ export async function getTasks(limit: number) {
 	await connectDB();
 
 	let query = Task.find({
-		userId: new mongoose.Types.ObjectId(session.user.id),
+		userId: session.user.id,
 	}).sort({ createdAt: -1 });
 
 	if (limit) {
@@ -28,19 +28,23 @@ export async function getTasks(limit: number) {
 }
 
 export async function getTaskById(id: string) {
-	const session = await getServerSession(authOptions);
+	try {
+		const session = await getServerSession(authOptions);
 
-	if (!session) throw new Error('Unauthorized');
+		if (!session) throw new Error('Unauthorized');
 
-	await connectDB();
-	const task = await Task.findOne({
-		_id: new mongoose.Types.ObjectId(id),
-		userId: new mongoose.Types.ObjectId(session.user.id),
-	}).lean();
+		await connectDB();
+		const task = await Task.findOne({
+			_id: id,
+			userId: session.user.id,
+		}).lean();
 
-	if (!task) return null;
+		if (!task) return null;
 
-	return { ...task, _id: task._id.toString() };
+		return { ...task, _id: task._id.toString() };
+	} catch {
+		return null;
+	}
 }
 
 export async function getTaskStats() {
