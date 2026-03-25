@@ -28,14 +28,21 @@ export const authOptions: NextAuthOptions = {
 			return true;
 		},
 
-		async session({ session }) {
-			await connectDB();
+		async jwt({ token, user }) {
+			if (user) {
+				await connectDB();
 
-			const dbUser = await User.findOne({
-				email: session.user.email,
-			});
+				const dbUser = await User.findOne({ email: user.email });
+				token.id = dbUser._id.toString();
+			}
 
-			session.user.id = dbUser._id.toString();
+			return token;
+		},
+
+		async session({ session, token }) {
+			if (token) {
+				session.user.id = token.id as string;
+			}
 
 			return session;
 		},
