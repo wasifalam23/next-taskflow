@@ -22,7 +22,7 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
 
 	const { id } = await params;
 
-	if (mongoose.Types.ObjectId.isValid(id)) {
+	if (!mongoose.Types.ObjectId.isValid(id)) {
 		notFound();
 	}
 
