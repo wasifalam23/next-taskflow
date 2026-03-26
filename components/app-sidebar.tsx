@@ -40,9 +40,24 @@ import { LayoutDashboard, ListTodo, Plus } from 'lucide-react';
 
 export function AppSidebar() {
 	const [openLogoutAlert, setOpenLogoutAlert] = useState(false);
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
 
 	const pathname = usePathname();
 	const { data: session } = useSession();
+
+	const handleLogout = async () => {
+		try {
+			setIsLoggingOut(true);
+
+			await signOut({
+				callbackUrl: '/login',
+				redirect: true, // default but keep it explicit
+			});
+		} catch (err) {
+			console.error(err);
+			setIsLoggingOut(false); // fallback (rare case)
+		}
+	};
 
 	return (
 		<Sidebar>
@@ -130,7 +145,11 @@ export function AppSidebar() {
 					</DropdownMenuContent>
 				</DropdownMenu>
 
-				<AlertDialog open={openLogoutAlert} onOpenChange={setOpenLogoutAlert}>
+				<AlertDialog
+					open={openLogoutAlert}
+					onOpenChange={(val) => {
+						if (!isLoggingOut) setOpenLogoutAlert(val);
+					}}>
 					<AlertDialogContent>
 						<AlertDialogHeader>
 							<AlertDialogTitle>
@@ -141,13 +160,23 @@ export function AppSidebar() {
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
-							<AlertDialogCancel className="cursor-pointer">
+							<AlertDialogCancel
+								className="cursor-pointer"
+								disabled={isLoggingOut}>
 								Cancel
 							</AlertDialogCancel>
 							<AlertDialogAction
-								onClick={() => signOut({ callbackUrl: '/login' })}
-								className="bg-red-500 hover:bg-red-600 cursor-pointer">
-								Log out
+								onClick={handleLogout}
+								disabled={isLoggingOut}
+								className="bg-red-500 hover:bg-red-600 cursor-pointer flex items-center gap-2">
+								{isLoggingOut ? (
+									<>
+										<span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+										Logging out...
+									</>
+								) : (
+									'Log out'
+								)}
 							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>
