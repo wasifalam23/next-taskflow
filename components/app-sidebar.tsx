@@ -51,11 +51,11 @@ export function AppSidebar() {
 
 			await signOut({
 				callbackUrl: '/login',
-				redirect: true, // default but keep it explicit
+				redirect: true,
 			});
 		} catch (err) {
 			console.error(err);
-			setIsLoggingOut(false); // fallback (rare case)
+			setIsLoggingOut(false);
 		}
 	};
 
@@ -166,7 +166,10 @@ export function AppSidebar() {
 								Cancel
 							</AlertDialogCancel>
 							<AlertDialogAction
-								onClick={handleLogout}
+								onClick={(e) => {
+									e.preventDefault();
+									handleLogout();
+								}}
 								disabled={isLoggingOut}
 								className="bg-red-500 hover:bg-red-600 cursor-pointer flex items-center gap-2">
 								{isLoggingOut ? (
