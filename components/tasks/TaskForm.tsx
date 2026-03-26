@@ -38,6 +38,8 @@ export default function TaskForm({ task }: TaskFormProps) {
 
 	const [titleError, setTitleError] = useState('');
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	const editHandler = async () => {
 		const res = await fetch(`/api/tasks/${task?._id}`, {
 			method: 'PATCH',
@@ -53,8 +55,6 @@ export default function TaskForm({ task }: TaskFormProps) {
 
 		toast.success('Task updated successfully');
 
-		const data = await res.json();
-		console.log('Data', data);
 		router.push('/tasks');
 	};
 
@@ -67,6 +67,8 @@ export default function TaskForm({ task }: TaskFormProps) {
 			setTitleError('Title is required');
 			return;
 		}
+
+		setIsLoading(true);
 
 		try {
 			if (task) {
@@ -91,6 +93,8 @@ export default function TaskForm({ task }: TaskFormProps) {
 			router.push('/tasks');
 		} catch (err) {
 			console.error(err);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -178,9 +182,16 @@ export default function TaskForm({ task }: TaskFormProps) {
 				<Button
 					size="lg"
 					variant="default"
-					className=" cursor-pointer"
-					type="submit">
-					{task ? 'Update Task' : 'Create Task'}
+					className="cursor-pointer"
+					type="submit"
+					disabled={isLoading}>
+					{isLoading
+						? task
+							? 'Updating...'
+							: 'Creating...'
+						: task
+							? 'Update Task'
+							: 'Create Task'}
 				</Button>
 			</div>
 		</form>

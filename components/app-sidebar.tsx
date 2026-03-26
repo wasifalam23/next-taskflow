@@ -12,6 +12,8 @@ import {
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 
+import { useState } from 'react';
+
 import {
 	Sidebar,
 	SidebarHeader,
@@ -23,9 +25,22 @@ import {
 	SidebarFooter,
 } from '@/components/ui/sidebar';
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+
 import { LayoutDashboard, ListTodo, Plus } from 'lucide-react';
 
 export function AppSidebar() {
+	const [openLogoutAlert, setOpenLogoutAlert] = useState(false);
+
 	const pathname = usePathname();
 	const { data: session } = useSession();
 
@@ -85,7 +100,6 @@ export function AppSidebar() {
 						className="cursor-pointer focus:outline-none"
 						asChild>
 						<button className="flex items-center gap-3 w-full">
-							{/* Avatar */}
 							<div className="w-10 h-10 relative">
 								<Image
 									src={session?.user?.image || '/default-avatar.jpg'}
@@ -96,7 +110,6 @@ export function AppSidebar() {
 								/>
 							</div>
 
-							{/* Name */}
 							<div className="flex flex-col text-left overflow-hidden">
 								<p className="text-sm font-medium truncate">
 									{session?.user?.name}
@@ -110,12 +123,35 @@ export function AppSidebar() {
 
 					<DropdownMenuContent align="end" className="w-48">
 						<DropdownMenuItem
-							onClick={() => signOut({ callbackUrl: '/login' })}
+							onClick={() => setOpenLogoutAlert(true)}
 							className="cursor-pointer text-red-500">
 							Logout
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
+
+				<AlertDialog open={openLogoutAlert} onOpenChange={setOpenLogoutAlert}>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>
+								Are you sure you want to log out?
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								{`Log out of TaskFlow as ${session?.user?.email}?`}
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel className="cursor-pointer">
+								Cancel
+							</AlertDialogCancel>
+							<AlertDialogAction
+								onClick={() => signOut({ callbackUrl: '/login' })}
+								className="bg-red-500 hover:bg-red-600 cursor-pointer">
+								Log out
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			</SidebarFooter>
 		</Sidebar>
 	);

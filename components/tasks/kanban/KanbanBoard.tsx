@@ -30,8 +30,6 @@ export default function KanbanBoard({ tasks }: KanbanBoardProps) {
 
 		if (!over) return;
 
-		// console.log(event);
-
 		const taskId = active.id;
 		const newStatus = over.id as TaskStatus;
 
