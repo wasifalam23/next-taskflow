@@ -21,8 +21,8 @@ export default async function AppLayout({ children }: AppLayoutProps) {
 		<SidebarProvider>
 			<div className="flex h-screen w-full">
 				<AppSidebar />
-				<div className="flex flex-col flex-1">
-					<main className="flex-1 overflow-y-auto p-6">
+				<div className="flex flex-col flex-1 min-w-0">
+					<main className="flex-1 min-w-0 overflow-y-auto p-6">
 						<SidebarToggleButton />
 						{children}
 					</main>

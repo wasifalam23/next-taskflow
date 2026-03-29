@@ -46,12 +46,12 @@ export default function RecentTasks({ tasks }: RecentTasksProps) {
 					return (
 						<div
 							key={task._id}
-							className="flex items-center justify-between py-3 px-2 rounded-md hover:bg-muted transition-colors">
-							<span className="font-medium truncate max-w-[60%]">
+							className="flex items-center justify-between gap-4 py-3 px-2 rounded-md hover:bg-muted transition-colors">
+							<span className="font-medium truncate flex-1 min-w-0">
 								{task.title}
 							</span>
 
-							<div className="flex items-center gap-4 text-sm text-muted-foreground">
+							<div className="flex items-center gap-4 text-sm text-muted-foreground shrink-0">
 								<Badge className={statusStyles[task.status]}>
 									{statusLabel}
 								</Badge>
