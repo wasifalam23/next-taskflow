@@ -30,7 +30,7 @@ export default function KanbanTask({ task }: KanbanTaskProps) {
 			style={style}
 			{...listeners}
 			{...attributes}
-			className="cursor-grab active:cursor-grabbing hover:bg-muted/40 transition-colors">
+			className="touch-none cursor-grab active:cursor-grabbing hover:bg-muted/40 transition-colors">
 			<CardContent className="py-2 space-y-3">
 				<div className="space-y-2">
 					<h4 className="text-sm font-semibold leading-snug">{task.title}</h4>

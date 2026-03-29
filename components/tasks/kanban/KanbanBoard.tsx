@@ -1,7 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import {
+	DndContext,
+	PointerSensor,
+	TouchSensor,
+	useSensor,
+	useSensors,
+	type DragEndEvent,
+} from '@dnd-kit/core';
 import KanbanColumn from './KanbanColumn';
 import { useState, useEffect } from 'react';
 import type { Task, TaskStatus } from '@/types/task';
@@ -61,9 +68,23 @@ export default function KanbanBoard({ tasks }: KanbanBoardProps) {
 		router.refresh();
 	};
 
+	const sensors = useSensors(
+		useSensor(PointerSensor, {
+			activationConstraint: {
+				distance: 8,
+			},
+		}),
+		useSensor(TouchSensor, {
+			activationConstraint: {
+				delay: 1000,
+				tolerance: 5,
+			},
+		}),
+	);
+
 	return (
-		<DndContext onDragEnd={handleDragEnd}>
-			<div className="grid grid-cols-3 gap-6">
+		<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+			<div className="flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:overflow-visible snap-x snap-mandatory">
 				<KanbanColumn title="Todo" tasks={columns.todo} status="todo" />
 				<KanbanColumn
 					title="In Progress"

@@ -21,7 +21,9 @@ export default function KanbanColumn({
 	});
 
 	return (
-		<div ref={setNodeRef} className="bg-muted/40 space-y-2 rounded-lg p-4 ">
+		<div
+			ref={setNodeRef}
+			className=" bg-muted/40 space-y-2 rounded-lg p-4 min-w-[75vw] sm:min-w-75 md:min-w-[320px] snap-start">
 			<div className={`px-3 py-2.5 rounded-md border ${columnStyles[status]}`}>
 				<div className="flex items-center justify-between">
 					<h3 className="text-sm font-semibold">{title}</h3>
