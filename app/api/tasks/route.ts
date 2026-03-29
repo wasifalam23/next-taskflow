@@ -16,20 +16,16 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		// 1️⃣ Connect to database
 		await connectDB();
 
-		// 2️⃣ Parse request body
 		const body = await req.json();
 
 		const { title, description, status, priority, dueDate } = body;
 
-		// 3️⃣ Basic validation
 		if (!title) {
 			return Response.json({ error: 'Title is required' }, { status: 400 });
 		}
 
-		// 4️⃣ Create task
 		const newTask = await Task.create({
 			userId: new mongoose.Types.ObjectId(session.user.id),
 			title,
@@ -39,7 +35,6 @@ export async function POST(req: NextRequest) {
 			dueDate,
 		});
 
-		// 5️⃣ Return success response
 		return Response.json({ data: newTask }, { status: 201 });
 	} catch (error) {
 		console.error('POST /api/tasks error:', error);

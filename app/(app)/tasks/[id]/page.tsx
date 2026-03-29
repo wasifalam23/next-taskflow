@@ -35,7 +35,7 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
 	const taskData = JSON.parse(JSON.stringify(task));
 
 	return (
-		<div className="max-w-6xl mx-auto">
+		<div className="max-w-6xl mx-auto mt-4">
 			<h1>Edit Task</h1>
 			<TaskForm task={taskData} />
 		</div>
