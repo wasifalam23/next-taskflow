@@ -83,8 +83,11 @@ export default function KanbanBoard({ tasks }: KanbanBoardProps) {
 	);
 
 	return (
-		<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-			<div className="flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:overflow-visible snap-x snap-mandatory">
+		<DndContext
+			sensors={sensors}
+			onDragEnd={handleDragEnd}
+			autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 10 }}>
+			<div className="flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:overflow-visible ">
 				<KanbanColumn title="Todo" tasks={columns.todo} status="todo" />
 				<KanbanColumn
 					title="In Progress"
