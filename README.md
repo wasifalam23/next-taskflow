@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow
 
-## Getting Started
+TaskFlow is a modern, full-stack task management application designed to help users organize, track, and manage their projects efficiently. Featuring a dynamic Kanban-style interface, it offers a seamless drag-and-drop experience for productivity.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Dynamic Kanban Board:** Effortlessly manage tasks using a drag-and-drop interface to move items between "To Do," "In Progress," and "Completed" states.
+- **Secure Authentication:** Integrated Google Authentication for a quick and secure login experience.
+- **Server-Side Data Handling:** Optimized performance using Next.js Server Actions for secure, direct database access without a separate API layer.
+- **Responsive Design:** Fully optimized for all device types using Tailwind CSS and Shadcn/ui.
+- **Persistent Storage:** All tasks and user data are securely stored and managed via MongoDB.
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Shadcn/ui](https://ui.shadcn.com/), Lucide React
+- **Database:** [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/)
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/) (Google Auth)
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or later
+- A MongoDB Atlas account
+- Google Developer Console credentials
+
+### Installation
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone [https://github.com/wasifalam23/next-taskflow.git](https://github.com/wasifalam23/next-taskflow.git)
+    cd next-taskflow
+    ```
+
+2.  **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Set up environment variables:**
+    Create a `.env.local` file in the root directory and add the following:
+
+    ```env
+    MONGODB_URI=your_mongodb_connection_string
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
+    NEXTAUTH_SECRET=your_nextauth_secret
+    NEXTAUTH_URL=http://localhost:3000
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/app`: Next.js pages, layouts, and API routes.
+- `/components`: Reusable UI components and Shadcn/ui elements.
+- `/models`: Mongoose schemas for task and user data.
+- `/lib`: Database connection logic and utility functions.
+- `/hooks`: Custom React hooks for handling application state.
+- `/types`: TypeScript interface definitions.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
